@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteador de Números</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #09090A;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1098px;
+            width: 100%;
+            background-color: #121214;
+            border-radius: 16px;
+            padding: 48px;
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+            gap: 5rem;
+        }
+
+        p {
+            font-family: sans-serif;
+            font-size: 20px;
+            color: #e9e9ff;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e2e2f3;
+            font-family: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #323238;
+            background-color: #202024;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8257E5;
+        }
+
+        .toggle-wrapper {
+            margin: 24px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #323238;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #8257E5;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .info-box {
+            background-color: #202024;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8257E5;
+            margin-bottom: 8px;
+        }
+
+        .info-content {
+            color: #7C7C8A;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #8257E5;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #9466FF;
+        }
+
+        .result {
+            margin-top: 32px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .number {
+            background-color: #202024;
+            padding: 24px;
+            border-radius: 8px;
+            font-size: 24px;
+            min-width: 80px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .input-wrapper {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="img/logo.svg"Numbers Logo" class="logo">
+        <h1>SORTEADOR DE NÚMEROS</h1>
+        <p>QUERO SORTEAR:</p>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <label>NÚMEROS</label>
+                <input type="number" id="quantity" min="1" value="2">
+            </div>
+            <div class="input-wrapper">
+                <label>DE</label>
+                <input type="number" id="min" min="0" value="1">
+            </div>
+            <div class="input-wrapper">
+                <label>DE</label>
+                <input type="number" id="max" min="1" value="100">
+            </div>
+        </div>
+
+        <div class="toggle-wrapper">
+            <label class="toggle">
+                <input type="checkbox" id="allowRepeats">
+                <span class="slider"></span>
+            </label>
+            <span>Permitir números repetidos</span>
+        </div>
+
+        <div class="info-box">
+            <div class="info-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                </svg>
+                Como funciona o sorteador?
+            </div>
+            <div class="info-content">
+                O sorteador utiliza um algoritmo de geração aleatória para criar números dentro do intervalo especificado. Para garantir resultados justos, cada número tem a mesma chance de ser sorteado.
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                </svg>
+                Posso escolher o intervalo dos números?
+            </div>
+            <div class="info-content">
+                Sim, você pode definir os valores mínimo e máximo para criar o intervalo desejado. Por exemplo, para sortear números de 1 a 100, defina o mínimo como 1 e o máximo como 100.
+            </div>
+        </div>
+
+        <button onclick="drawNumbers()">SORTEAR →</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function drawNumbers() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const min = parseInt(document.getElementById('min').value);
+            const max = parseInt(document.getElementById('max').value);
+            const allowRepeats = document.getElementById('allowRepeats').checked;
+            
+            if (!allowRepeats && quantity > (max - min + 1)) {
+                alert('A quantidade de números deve ser menor ou igual ao intervalo disponível quando números repetidos não são permitidos!');
+                return;
+            }
+
+            const result = document.getElementById('result');
+            result.innerHTML = '';
+            
+            if (allowRepeats) {
+               
+                for (let i = 0; i < quantity; i++) {
+                    setTimeout(() => {
+                        const number = Math.floor(Math.random() * (max - min + 1)) + min;
+                        displayNumber(number);
+                    }, i * 500);
+                }
+            } else {
+                
+                const numbers = new Set();
+                while (numbers.size < quantity) {
+                    numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+
+                Array.from(numbers).forEach((number, index) => {
+                    setTimeout(() => {
+                        displayNumber(number);
+                    }, index * 500);
+                });
+            }
+        }
+
+        function displayNumber(number) {
+            const result = document.getElementById('result');
+            const div = document.createElement('div');
+            div.className = 'number';
+            div.textContent = number;
+            result.appendChild(div);
+        }
+    </script>
+</body>
+</html>
